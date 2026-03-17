@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Modal } from 'bootstrap';
 import { ChecklistService } from '../../services/checklist.service';
@@ -27,16 +27,18 @@ export class ListComponent implements OnInit, OnDestroy {
   pendingDeleteRowId: string | null = null;
 
   private changeSubject = new Subject<void>();
-  private changeSubscription = this.changeSubject.pipe(debounceTime(2000)).subscribe(() => {
-    if (this.autoSave) this.save();
-  });
+  private changeSubscription: Subscription = Subscription.EMPTY;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     const found = this.checklistService.loadList(id);
     if (!found) {
       this.router.navigate(['/']);
+      return;
     }
+    this.changeSubscription = this.changeSubject.pipe(debounceTime(2000)).subscribe(() => {
+      if (this.autoSave) this.save();
+    });
   }
 
   ngOnDestroy(): void {
