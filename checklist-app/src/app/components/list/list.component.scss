@@ -33,11 +33,11 @@
     word-break: break-word;
   }
 
-  // Checkbox columns — shrink to minimum, header wraps at 120 px
+  // Checkbox columns — fixed 150 px, header and cell text wraps as needed
   .col-check {
-    width: 1px;       // shrink cell to its minimum content width
-    max-width: 120px;
-    min-width: 60px;
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
     white-space: normal;
     word-break: break-word;
     text-align: center;
