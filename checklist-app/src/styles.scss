@@ -1,13 +1,181 @@
+// ── Bootstrap Sass variable overrides (must come before the @import) ─────────
+
+// Brand blue
+$primary:   #3b6ef5;
+$link-color: $primary;
+
+// Light-mode body: cool blue-gray, never pure white
+$body-bg:    #e8eef8;
+$body-color: #1e293b;
+
+// Dark-mode body: deep navy
+$body-bg-dark:    #0f1629;
+$body-color-dark: #dde6f4;
+
+// Cards: barely-blue tint instead of plain white
+$card-bg:            #f2f6ff;
+$card-border-color:  rgba(59, 110, 245, 0.12);
+
+// Inputs: cool tinted background
+$input-bg:                 #e4ecff;
+$input-border-color:       rgba(59, 110, 245, 0.25);
+$input-focus-border-color: #3b6ef5;
+$input-focus-box-shadow:   0 0 0 3px rgba(59, 110, 245, 0.15);
+
+// Modals: same surface as cards in light mode
+$modal-content-bg:           #f2f6ff;
+$modal-content-border-color: rgba(59, 110, 245, 0.1);
+
+// Softer, rounder corners throughout
+$border-radius:    10px;
+$border-radius-lg: 14px;
+$border-radius-sm: 6px;
+
+// ── Bootstrap import ─────────────────────────────────────────────────────────
 @import 'bootstrap/scss/bootstrap';
 
+// ── CSS custom properties ─────────────────────────────────────────────────────
 :root {
   --transition-speed: 0.2s;
+
+  // App navbar (always dark blue regardless of light/dark theme)
+  --app-navbar-bg:   #1d3461;
+  --app-navbar-text: #ffffff;
+  --app-navbar-sub:  rgba(255, 255, 255, 0.60);
 }
 
+[data-bs-theme="dark"] {
+  --app-navbar-bg:   #08111e;
+  --app-navbar-text: #c5d8ff;
+  --app-navbar-sub:  rgba(197, 216, 255, 0.55);
+
+  // Dark mode surface overrides (Bootstrap 5.3 CSS custom properties)
+  --bs-card-bg:            #182035;
+  --bs-card-border-color:  rgba(90, 140, 255, 0.12);
+  --bs-modal-bg:           #182035;
+  --bs-body-bg:            #0f1629;
+  --bs-body-color:         #dde6f4;
+}
+
+// ── Base transitions ──────────────────────────────────────────────────────────
 body {
   transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
+// ── App navbar (deep blue, constant across themes) ───────────────────────────
+.navbar-app {
+  background-color: var(--app-navbar-bg) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.28);
+
+  // All text inside the navbar
+  color: var(--app-navbar-text);
+
+  .fw-semibold,
+  .btn-link {
+    color: var(--app-navbar-text) !important;
+
+    &:hover { opacity: 0.85; }
+  }
+
+  // Subtle secondary outline button (← Voltar)
+  .btn-outline-secondary {
+    color: #a8c4ff;
+    border-color: rgba(168, 196, 255, 0.35);
+
+    &:hover {
+      background-color: rgba(168, 196, 255, 0.15);
+      color: #ffffff;
+      border-color: rgba(168, 196, 255, 0.60);
+    }
+  }
+
+  // Labels / small text
+  .form-check-label,
+  .small,
+  label {
+    color: var(--app-navbar-sub) !important;
+  }
+
+  // Save-status badges
+  .badge.bg-success { background-color: #22c55e !important; }
+  .badge.bg-danger  { background-color: #f87171 !important; }
+
+  // Export button (ghost-style on dark navbar)
+  .btn-dark {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color:     rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.20);
+    }
+  }
+
+  // Save button
+  .btn-success {
+    background-color: #22c55e;
+    border-color: #16a34a;
+
+    &:hover { background-color: #16a34a; }
+  }
+
+  // Auto-save toggle
+  .form-check-input {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color:     rgba(168, 196, 255, 0.40);
+
+    &:checked {
+      background-color: #3b6ef5;
+      border-color:     #3b6ef5;
+    }
+  }
+}
+
+// ── Cards (shared transition) ─────────────────────────────────────────────────
 .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+// ── Dark mode: form controls & table overrides ────────────────────────────────
+[data-bs-theme="dark"] {
+  .form-control,
+  .form-select {
+    background-color: #0c1322;
+    border-color: rgba(90, 140, 255, 0.25);
+    color: #dde6f4;
+
+    &:focus {
+      background-color: #0c1322;
+      box-shadow: 0 0 0 3px rgba(90, 140, 255, 0.20);
+    }
+  }
+
+  // Editable th inputs inside the table stay transparent
+  .table .form-control {
+    background-color: transparent;
+    border-color: transparent;
+    color: inherit;
+  }
+
+  // Table head: deep navy surface
+  .table-head-app th {
+    background-color: #182035;
+    color: #a8c4ff;
+    border-bottom-color: rgba(90, 140, 255, 0.18);
+  }
+
+  // Modal inner background (fallback when Bootstrap CSS var not picked up)
+  .modal-content {
+    background-color: #182035;
+    border-color: rgba(90, 140, 255, 0.15);
+  }
+}
+
+// ── Light mode: editable table header inputs ──────────────────────────────────
+[data-bs-theme="light"] {
+  .table .form-control {
+    background-color: transparent;
+    border-color: transparent;
+  }
 }

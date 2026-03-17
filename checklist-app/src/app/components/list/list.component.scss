@@ -1,23 +1,53 @@
+// ── Checklist table ───────────────────────────────────────────────────────────
 .checklist-table {
+  border-color: rgba(59, 110, 245, 0.10);
+
+  th, td {
+    border-color: rgba(59, 110, 245, 0.10);
+  }
+
   th input {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 0.875rem;
   }
 }
 
+// Table header: blue-tinted surface in light; dark navy in dark
+.table-head-app {
+  th {
+    background-color: #dce8ff;
+    color: #1e3a8a;
+    border-bottom: 2px solid rgba(59, 110, 245, 0.20);
+  }
+}
+
+[data-bs-theme="dark"] {
+  .table-head-app th {
+    background-color: #182035;
+    color: #a8c4ff;
+    border-bottom-color: rgba(90, 140, 255, 0.18);
+  }
+}
+
+// ── Floating delete-list button ───────────────────────────────────────────────
 .fab-delete-list {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 1000;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.22);
 }
 
+// ── Theme toggle FAB ──────────────────────────────────────────────────────────
 .theme-toggle-fab {
   position: fixed;
   bottom: 24px;
   left: 24px;
   z-index: 1000;
-  background: var(--bs-body-bg);
-  padding: 8px 12px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background: var(--bs-card-bg, #f2f6ff);
+  padding: 8px 14px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(59, 110, 245, 0.18);
+  border: 1px solid rgba(59, 110, 245, 0.12);
 }
