@@ -1,0 +1,13 @@
+@import 'bootstrap/scss/bootstrap';
+
+:root {
+  --transition-speed: 0.2s;
+}
+
+body {
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}

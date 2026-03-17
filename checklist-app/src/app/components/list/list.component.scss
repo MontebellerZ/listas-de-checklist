@@ -1,0 +1,23 @@
+.checklist-table {
+  th input {
+    font-weight: 600;
+  }
+}
+
+.fab-delete-list {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.theme-toggle-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 1000;
+  background: var(--bs-body-bg);
+  padding: 8px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}

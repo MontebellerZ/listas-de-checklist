@@ -1,0 +1,70 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 mb-0">Listas de Checklist</h1>
+    <button class="btn btn-primary" (click)="openNewListModal()">
+      + Nova Lista
+    </button>
+  </div>
+
+  <!-- Theme toggle floating button -->
+  <div class="theme-toggle-fab">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="themeToggleHome"
+             [checked]="themeService.isDark()"
+             (change)="themeService.toggleTheme()">
+      <label class="form-check-label" for="themeToggleHome">
+        {{ themeService.isDark() ? '🌙' : '☀️' }}
+      </label>
+    </div>
+  </div>
+
+  @if (sortedLists().length === 0) {
+    <div class="text-center py-5 text-muted">
+      <p class="fs-5">Nenhuma lista criada ainda.</p>
+      <p>Clique em "Nova Lista" para começar!</p>
+    </div>
+  } @else {
+    <div class="row g-3">
+      @for (list of sortedLists(); track list.id) {
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="card checklist-card h-100 shadow-sm" (click)="navigateToList(list.id)" style="cursor:pointer">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">{{ list.name }}</h5>
+              <p class="card-text text-muted small">
+                {{ formatDate(list.updatedAt) }}
+              </p>
+              <p class="card-text text-muted small">
+                {{ list.rows.length }} itens • {{ list.columns.length }} colunas
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- New List Modal -->
+<div class="modal fade" id="newListModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Lista</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label for="newListNameInput" class="form-label">Nome da lista</label>
+        <input type="text" class="form-control" id="newListNameInput"
+               [(ngModel)]="newListName"
+               (keydown.enter)="createList()"
+               placeholder="Ex: Checklist de tarefas">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="createList()" [disabled]="!newListName.trim()">
+          Criar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
