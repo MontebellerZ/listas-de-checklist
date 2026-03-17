@@ -16,7 +16,7 @@
       <input class="form-check-input mt-0" type="checkbox" id="autoSaveSwitch" [(ngModel)]="autoSave" (change)="onAutoSaveChange()">
       <label class="form-check-label small" for="autoSaveSwitch">Auto-save</label>
     </div>
-    <button class="btn btn-dark btn-sm" (click)="exportToExcel()">Exportar</button>
+    <button class="btn btn-dark btn-sm" (click)="exportToExcel()">📊 Exportar</button>
     <button class="btn btn-success btn-sm" (click)="save()">Salvar</button>
   </div>
 </nav>
@@ -27,12 +27,16 @@
     <table class="table table-bordered table-hover align-middle checklist-table">
       <thead class="table-light">
         <tr>
-          <th style="min-width:200px">Item</th>
+          <th style="min-width:200px">
+              <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
+                     [value]="list.itemColumnName"
+                     (blur)="updateItemColumnName(inputValue($event))">
+            </th>
           @for (col of list.columns; track col.id) {
             <th style="min-width:150px">
               <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
                      [value]="col.name"
-                     (blur)="updateColumnName(col.id, $event.target['value'])">
+                     (blur)="updateColumnName(col.id, inputValue($event))">
             </th>
           }
           <th>
@@ -47,14 +51,14 @@
             <td>
               <input type="text" class="form-control form-control-sm border-0"
                      [value]="row.itemName"
-                     (input)="updateRowItem(row.id, $event.target['value'])"
+                     (input)="updateRowItem(row.id, inputValue($event))"
                      placeholder="Nome do item">
             </td>
             @for (col of list.columns; track col.id) {
               <td class="text-center">
                 <input type="checkbox" class="form-check-input"
                        [checked]="row.checks[col.id]"
-                       (change)="updateRowCheck(row.id, col.id, $event.target['checked'])">
+                       (change)="updateRowCheck(row.id, col.id, checkboxChecked($event))">
               </td>
             }
             <td></td>

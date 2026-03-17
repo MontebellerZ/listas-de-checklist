@@ -82,6 +82,21 @@ export class ListComponent implements OnInit, OnDestroy {
     this.triggerChange();
   }
 
+  /** Type-safe helper to extract string value from an input event */
+  inputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  /** Type-safe helper to extract checked state from a checkbox event */
+  checkboxChecked(event: Event): boolean {
+    return (event.target as HTMLInputElement).checked;
+  }
+
+  updateItemColumnName(value: string): void {
+    this.checklistService.updateItemColumnName(value);
+    this.triggerChange();
+  }
+
   updateColumnName(colId: string, value: string): void {
     this.checklistService.updateColumnName(colId, value);
     this.triggerChange();

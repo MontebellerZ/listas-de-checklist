@@ -12,6 +12,8 @@ export interface ChecklistRow {
 export interface ChecklistList {
   id: string;
   name: string;
+  /** Label for the first (item name) column — editable by the user */
+  itemColumnName: string;
   columns: ChecklistColumn[];
   rows: ChecklistRow[];
   createdAt: string;

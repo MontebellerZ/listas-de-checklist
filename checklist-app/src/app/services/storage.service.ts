@@ -3,12 +3,17 @@ import { ChecklistList } from '../models/checklist.model';
 
 const STORAGE_KEY = 'checklist_lists';
 
+/** Shape of persisted data before the itemColumnName field was introduced */
+type PersistedList = Omit<ChecklistList, 'itemColumnName'> & { itemColumnName?: string };
+
 @Injectable({ providedIn: 'root' })
 export class StorageService {
   getLists(): ChecklistList[] {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
+      const lists: PersistedList[] = raw ? JSON.parse(raw) : [];
+      // Backward-compat: ensure itemColumnName exists on all loaded lists
+      return lists.map(l => ({ ...l, itemColumnName: l.itemColumnName ?? 'Item' }));
     } catch {
       return [];
     }

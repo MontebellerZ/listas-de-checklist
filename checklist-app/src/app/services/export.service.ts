@@ -9,7 +9,7 @@ export class ExportService {
     const sheet = workbook.addWorksheet(list.name);
 
     sheet.columns = [
-      { header: 'Item', key: 'item', width: 30 },
+      { header: list.itemColumnName, key: 'item', width: 30 },
       ...list.columns.map(col => ({ header: col.name, key: col.id, width: 15 }))
     ];
 

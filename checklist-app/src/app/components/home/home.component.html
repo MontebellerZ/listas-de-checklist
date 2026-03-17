@@ -1,7 +1,8 @@
 <div class="container py-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h2 mb-0">Listas de Checklist</h1>
-    <button class="btn btn-primary" (click)="openNewListModal()">
+  <!-- Centered title and link-style button -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold mb-3">Listas de Checklist</h1>
+    <button class="btn btn-link fs-5 text-decoration-none" (click)="openNewListModal()">
       + Nova Lista
     </button>
   </div>
@@ -24,14 +25,14 @@
       <p>Clique em "Nova Lista" para começar!</p>
     </div>
   } @else {
-    <div class="row g-3">
+    <div class="row g-3 justify-content-center">
       @for (list of sortedLists(); track list.id) {
         <div class="col-12 col-sm-6 col-md-4">
           <div class="card checklist-card h-100 shadow-sm" (click)="navigateToList(list.id)" style="cursor:pointer">
             <div class="card-body">
               <h5 class="card-title text-truncate">{{ list.name }}</h5>
               <p class="card-text text-muted small">
-                {{ formatDate(list.updatedAt) }}
+                <span class="fw-semibold">Última alteração:</span> {{ formatDate(list.updatedAt) }}
               </p>
               <p class="card-text text-muted small">
                 {{ list.rows.length }} itens • {{ list.columns.length }} colunas
@@ -57,7 +58,8 @@
         <input type="text" class="form-control" id="newListNameInput"
                [(ngModel)]="newListName"
                (keydown.enter)="createList()"
-               placeholder="Ex: Checklist de tarefas">
+               placeholder="Ex: Checklist de tarefas"
+               autofocus>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

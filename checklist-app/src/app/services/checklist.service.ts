@@ -12,11 +12,18 @@ export class ChecklistService {
 
   createList(name: string): ChecklistList {
     const now = new Date().toISOString();
+    const col: ChecklistColumn = { id: crypto.randomUUID(), name: 'Checkbox 1' };
+    const row: ChecklistRow = {
+      id: crypto.randomUUID(),
+      itemName: '',
+      checks: { [col.id]: false }
+    };
     const list: ChecklistList = {
       id: crypto.randomUUID(),
       name,
-      columns: [{ id: crypto.randomUUID(), name: 'Checkbox 1' }],
-      rows: [],
+      itemColumnName: 'Item',
+      columns: [col],
+      rows: [row],
       createdAt: now,
       updatedAt: now
     };
@@ -108,6 +115,13 @@ export class ChecklistService {
       ...list,
       columns: list.columns.map(c => c.id === columnId ? { ...c, name } : c)
     });
+    this.markDirty();
+  }
+
+  updateItemColumnName(name: string): void {
+    const list = this.currentList();
+    if (!list) return;
+    this.currentList.set({ ...list, itemColumnName: name });
     this.markDirty();
   }
 
