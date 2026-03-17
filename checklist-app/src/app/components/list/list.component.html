@@ -22,47 +22,47 @@
 </nav>
 
 <!-- Table area -->
-<div class="container-fluid py-3">
-  <div class="table-responsive">
+<div class="table-area py-3">
+  <div class="table-scroll-wrapper">
     <table class="table table-bordered table-hover align-middle checklist-table">
       <thead class="table-head-app">
         <tr>
-          <th style="min-width:200px">
-              <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
-                     [value]="list.itemColumnName"
-                     (blur)="updateItemColumnName(inputValue($event))">
-            </th>
+          <th class="col-item">
+            <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
+                   [value]="list.itemColumnName"
+                   (blur)="updateItemColumnName(inputValue($event))">
+          </th>
           @for (col of list.columns; track col.id) {
-            <th style="min-width:150px">
+            <th class="col-check">
               <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
                      [value]="col.name"
                      (blur)="updateColumnName(col.id, inputValue($event))">
             </th>
           }
-          <th>
+          <th class="col-add">
             <button class="btn btn-link btn-sm p-0" (click)="addColumn()">+ Adicionar coluna</button>
           </th>
-          <th style="width:48px"></th>
+          <th class="col-action"></th>
         </tr>
       </thead>
       <tbody>
         @for (row of list.rows; track row.id) {
           <tr>
-            <td>
+            <td class="col-item">
               <input type="text" class="form-control form-control-sm border-0"
                      [value]="row.itemName"
                      (input)="updateRowItem(row.id, inputValue($event))"
                      placeholder="Nome do item">
             </td>
             @for (col of list.columns; track col.id) {
-              <td class="text-center">
+              <td class="col-check text-center">
                 <input type="checkbox" class="form-check-input"
                        [checked]="row.checks[col.id]"
                        (change)="updateRowCheck(row.id, col.id, checkboxChecked($event))">
               </td>
             }
-            <td></td>
-            <td class="text-center">
+            <td class="col-add"></td>
+            <td class="col-action text-center">
               <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">🗑</button>
             </td>
           </tr>

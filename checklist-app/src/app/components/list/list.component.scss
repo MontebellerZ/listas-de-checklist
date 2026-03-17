@@ -1,5 +1,19 @@
+// ── Table area (centred, 120 px minimum side margins) ────────────────────────
+.table-area {
+  padding-left: 120px;
+  padding-right: 120px;
+}
+
+// Horizontal scroll only activates when table wider than the padded area
+.table-scroll-wrapper {
+  overflow-x: auto;
+}
+
 // ── Checklist table ───────────────────────────────────────────────────────────
 .checklist-table {
+  // Don't stretch to fill the wrapper — centre instead
+  width: auto;
+  margin: 0 auto;
   border-color: rgba(59, 110, 245, 0.10);
 
   th, td {
@@ -9,6 +23,36 @@
   th input {
     font-weight: 700;
     font-size: 0.875rem;
+  }
+
+  // First column: item name — fills content up to 30 vw, then wraps
+  .col-item {
+    max-width: 30vw;
+    min-width: 100px;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  // Checkbox columns — shrink to minimum, header wraps at 120 px
+  .col-check {
+    width: 1px;       // shrink cell to its minimum content width
+    max-width: 120px;
+    min-width: 60px;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+  }
+
+  // "Add column" action column — just wide enough for the button
+  .col-add {
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  // Row-delete action column
+  .col-action {
+    width: 48px;
+    white-space: nowrap;
   }
 }
 
