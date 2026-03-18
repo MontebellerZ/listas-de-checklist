@@ -1,0 +1,46 @@
+// ── Title accent underline ────────────────────────────────────────────────────
+.title-accent {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    display: block;
+    margin: 6px auto 0;
+    width: 48px;
+    height: 4px;
+    border-radius: 2px;
+    background: #3b6ef5;
+  }
+}
+
+// ── List cards ────────────────────────────────────────────────────────────────
+.checklist-card {
+  border-left: 4px solid #3b6ef5;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(59, 110, 245, 0.18) !important;
+    border-left-color: #5a88ff;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+// ── Theme toggle FAB ──────────────────────────────────────────────────────────
+.theme-toggle-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 1000;
+  background: var(--bs-card-bg, #f2f6ff);
+  padding: 8px 14px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(59, 110, 245, 0.18);
+  border: 1px solid rgba(59, 110, 245, 0.12);
+}

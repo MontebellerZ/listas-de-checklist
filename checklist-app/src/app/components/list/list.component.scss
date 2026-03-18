@@ -1,0 +1,127 @@
+// ── Table area (centred, 120 px minimum side margins) ────────────────────────
+.table-area {
+  padding-left: 120px;
+  padding-right: 120px;
+}
+
+// Horizontal scroll only activates when table wider than the padded area.
+// No background/border-radius here — avoids the "white card" block effect.
+// Small padding gives the table's own box-shadow room to render.
+.table-scroll-wrapper {
+  overflow-x: auto;
+  padding: 2px 4px 10px;
+}
+
+// ── Checklist table ───────────────────────────────────────────────────────────
+.checklist-table {
+  // Don't stretch to fill the wrapper — centre instead
+  width: auto;
+  margin: 0 auto;
+  border-color: rgba(59, 110, 245, 0.10);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 0;
+  box-shadow: 0 4px 24px rgba(59, 110, 245, 0.12);
+
+  th, td {
+    border-color: rgba(59, 110, 245, 0.10);
+  }
+
+  th input {
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  // Pencil icon inside header cells — subtle until hovered
+  .th-edit-btn {
+    color: inherit;
+    opacity: 0.45;
+    flex-shrink: 0;
+    line-height: 1;
+    &:hover { opacity: 0.9; }
+  }
+  // First column: item name — fills content up to 30 vw, then wraps
+  .col-item {
+    max-width: 30vw;
+    min-width: 100px;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  // Checkbox columns — fixed 150 px, header and cell text wraps as needed
+  .col-check {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+  }
+
+  // "Add column" action column — just wide enough for the button
+  .col-add {
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  // Row-delete action column
+  .col-action {
+    width: 48px;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+// Table header: blue-tinted surface in light; dark navy in dark
+.table-head-app {
+  th {
+    background-color: #dce8ff;
+    color: #1e3a8a;
+    border-bottom: 2px solid rgba(59, 110, 245, 0.20);
+  }
+}
+
+[data-bs-theme="dark"] {
+  .table-head-app th {
+    background-color: #182035;
+    color: #a8c4ff;
+    border-bottom-color: rgba(90, 140, 255, 0.18);
+  }
+}
+
+// ── Floating delete-list button ───────────────────────────────────────────────
+.fab-delete-list {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.22);
+}
+
+// ── Theme toggle FAB ──────────────────────────────────────────────────────────
+.theme-toggle-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 1000;
+  background: var(--bs-card-bg, #f2f6ff);
+  padding: 8px 14px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(59, 110, 245, 0.18);
+  border: 1px solid rgba(59, 110, 245, 0.12);
+}
+
+// ── Navbar centre title (always exactly centred regardless of side widths) ────
+.navbar-center-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none; // let clicks pass through to siblings
+
+  // Re-enable pointer events on interactive children
+  button, a, input {
+    pointer-events: auto;
+  }
+}

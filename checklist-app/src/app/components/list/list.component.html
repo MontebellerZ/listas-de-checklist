@@ -1,0 +1,197 @@
+@if (list) {
+<!-- Sticky header -->
+<nav class="navbar sticky-top navbar-app px-3">
+  <div class="d-flex align-items-center gap-2 flex-grow-1">
+    <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">← Voltar</button>
+    <span class="badge" [class.bg-success]="!isDirty" [class.bg-danger]="isDirty">
+      {{ isDirty ? '✗ Não salvo' : '✓ Salvo' }}
+    </span>
+  </div>
+  <div class="navbar-center-title d-flex align-items-center gap-2">
+    <span class="fw-semibold text-truncate" style="max-width:200px">{{ list.name }}</span>
+    <button class="btn btn-sm btn-link p-0" (click)="openEditNameModal()" title="Editar nome">
+      <i class="bi bi-pencil"></i>
+    </button>
+  </div>
+  <div class="d-flex align-items-center gap-2 flex-grow-1 justify-content-end">
+    <div class="form-check form-switch mb-0 d-flex align-items-center gap-1">
+      <input class="form-check-input mt-0" type="checkbox" id="autoSaveSwitch" [(ngModel)]="autoSave" (change)="onAutoSaveChange()">
+      <label class="form-check-label small mb-0" for="autoSaveSwitch">Auto-save</label>
+    </div>
+    <button class="btn btn-dark btn-sm" (click)="save()">Salvar</button>
+    <button class="btn btn-outline-secondary btn-sm" (click)="exportToExcel()">📊 Exportar</button>
+  </div>
+</nav>
+
+<!-- Table area -->
+<div class="table-area py-3">
+  <div class="table-scroll-wrapper">
+    <table class="table table-bordered table-hover align-middle checklist-table">
+      <thead class="table-head-app">
+        <tr>
+          <th class="col-item">
+            <div class="d-flex align-items-center gap-1">
+              <input #itemColInput type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
+                     [value]="list.itemColumnName"
+                     (blur)="updateItemColumnName(inputValue($event))">
+              <button class="btn btn-sm btn-link p-0 th-edit-btn"
+                      (click)="itemColInput.focus(); itemColInput.select()" title="Editar coluna">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
+          </th>
+          @for (col of list.columns; track col.id) {
+            <th class="col-check">
+              <div class="d-flex align-items-center justify-content-center gap-1">
+                <input #colInput type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold text-center"
+                       [value]="col.name"
+                       (blur)="updateColumnName(col.id, inputValue($event))">
+                <button class="btn btn-sm btn-link p-0 th-edit-btn"
+                        (click)="colInput.focus(); colInput.select()" title="Editar coluna">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+            </th>
+          }
+          <th class="col-add text-center">
+            <button class="btn btn-primary btn-sm" (click)="addColumn()" title="Adicionar coluna">+</button>
+          </th>
+          <th class="col-action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of list.rows; track row.id) {
+          <tr>
+            <td class="col-item">
+              <input type="text" class="form-control form-control-sm border-0"
+                     [value]="row.itemName"
+                     (input)="updateRowItem(row.id, inputValue($event))"
+                     placeholder="Nome do item">
+            </td>
+            @for (col of list.columns; track col.id) {
+              <td class="col-check text-center">
+                <input type="checkbox" class="form-check-input"
+                       [checked]="row.checks[col.id]"
+                       (change)="updateRowCheck(row.id, col.id, checkboxChecked($event))">
+              </td>
+            }
+            <td class="col-add"></td>
+            <td class="col-action">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="100%">
+            <button class="btn btn-primary btn-sm" (click)="addRow()">+ Adicionar linha</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="text-muted small mt-2 text-center">
+    Última modificação: {{ formatDate(list.updatedAt) }}
+  </p>
+</div>
+
+<!-- Floating: delete list (bottom-right) -->
+<button class="btn btn-outline-danger fab-delete-list" (click)="openDeleteListModal()" title="Excluir lista">
+  <i class="bi bi-trash3"></i> Excluir lista
+</button>
+
+<!-- Floating: theme toggle (bottom-left) -->
+<div class="theme-toggle-fab">
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="themeToggleList"
+           [checked]="themeService.isDark()"
+           (change)="themeService.toggleTheme()">
+    <label class="form-check-label" for="themeToggleList">
+      {{ themeService.isDark() ? '🌙' : '☀️' }}
+    </label>
+  </div>
+</div>
+
+<!-- Confirm back navigation modal -->
+<div class="modal fade" id="confirmBackModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Alterações não salvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Há alterações não salvas. Deseja sair mesmo assim?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-warning" (click)="confirmBack()">Sair sem salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit name modal -->
+<div class="modal fade" id="editNameModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar nome da lista</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" [(ngModel)]="editNameValue"
+               (keydown.enter)="confirmEditName()" placeholder="Nome da lista">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="confirmEditName()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete list modal -->
+<div class="modal fade" id="deleteListModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Excluir lista</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza que deseja excluir a lista <strong>{{ list.name }}</strong>? Esta ação não pode ser desfeita.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteList()">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete row confirmation modal -->
+<div class="modal fade" id="deleteRowModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Remover linha</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza que deseja remover esta linha?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteRow()">Remover</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
