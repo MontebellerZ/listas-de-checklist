@@ -4,7 +4,7 @@
   <div class="d-flex align-items-center gap-2 flex-grow-1">
     <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">← Voltar</button>
   </div>
-  <div class="d-flex align-items-center gap-2 flex-grow-1 justify-content-center">
+  <div class="navbar-center-title d-flex align-items-center gap-2">
     <span class="badge" [class.bg-success]="!isDirty" [class.bg-danger]="isDirty">
       {{ isDirty ? '✗ Não salvo' : '✓ Salvo' }}
     </span>
@@ -16,8 +16,8 @@
       <input class="form-check-input mt-0" type="checkbox" id="autoSaveSwitch" [(ngModel)]="autoSave" (change)="onAutoSaveChange()">
       <label class="form-check-label small" for="autoSaveSwitch">Auto-save</label>
     </div>
-    <button class="btn btn-dark btn-sm" (click)="exportToExcel()">📊 Exportar</button>
-    <button class="btn btn-success btn-sm" (click)="save()">Salvar</button>
+    <button class="btn btn-dark btn-sm" (click)="save()">Salvar</button>
+    <button class="btn btn-outline-secondary btn-sm" (click)="exportToExcel()">📊 Exportar</button>
   </div>
 </nav>
 
@@ -40,7 +40,7 @@
             </th>
           }
           <th class="col-add">
-            <button class="btn btn-link btn-sm p-0" (click)="addColumn()" title="Adicionar coluna">+</button>
+            <button class="btn btn-primary btn-sm" (click)="addColumn()" title="Adicionar coluna">+</button>
           </th>
           <th class="col-action"></th>
         </tr>
@@ -63,7 +63,9 @@
             }
             <td class="col-add"></td>
             <td class="col-action text-center">
-              <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">🗑</button>
+              <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">
+                <i class="bi bi-trash3"></i>
+              </button>
             </td>
           </tr>
         }
@@ -71,21 +73,21 @@
       <tfoot>
         <tr>
           <td colspan="100%">
-            <button class="btn btn-link btn-sm p-0" (click)="addRow()">+ Adicionar linha</button>
+            <button class="btn btn-primary btn-sm" (click)="addRow()">+ Adicionar linha</button>
           </td>
         </tr>
       </tfoot>
     </table>
   </div>
 
-  <p class="text-muted small mt-2">
+  <p class="text-muted small mt-2 text-center">
     Última modificação: {{ formatDate(list.updatedAt) }}
   </p>
 </div>
 
 <!-- Floating: delete list (bottom-right) -->
 <button class="btn btn-outline-danger fab-delete-list" (click)="openDeleteListModal()" title="Excluir lista">
-  🗑 Excluir lista
+  <i class="bi bi-trash3"></i> Excluir lista
 </button>
 
 <!-- Floating: theme toggle (bottom-left) -->

@@ -34,6 +34,9 @@ $border-radius-sm: 6px;
 // ── Bootstrap import ─────────────────────────────────────────────────────────
 @import 'bootstrap/scss/bootstrap';
 
+// ── Bootstrap Icons ───────────────────────────────────────────────────────────
+@import 'bootstrap-icons/font/bootstrap-icons';
+
 // ── CSS custom properties ─────────────────────────────────────────────────────
 :root {
   --transition-speed: 0.2s;
@@ -78,7 +81,7 @@ body {
     &:hover { opacity: 0.85; }
   }
 
-  // Subtle secondary outline button (← Voltar)
+  // Subtle secondary outline buttons (← Voltar, 📊 Exportar)
   .btn-outline-secondary {
     color: #a8c4ff;
     border-color: rgba(168, 196, 255, 0.35);
@@ -101,7 +104,7 @@ body {
   .badge.bg-success { background-color: #22c55e !important; }
   .badge.bg-danger  { background-color: #f87171 !important; }
 
-  // Export button (ghost-style on dark navbar)
+  // Save button (ghost-style on dark navbar)
   .btn-dark {
     background-color: rgba(255, 255, 255, 0.10);
     border-color:     rgba(255, 255, 255, 0.18);
@@ -112,13 +115,7 @@ body {
     }
   }
 
-  // Save button
-  .btn-success {
-    background-color: #22c55e;
-    border-color: #16a34a;
-
-    &:hover { background-color: #16a34a; }
-  }
+  // Export button (subtle outline on dark navbar) — shares .btn-outline-secondary style above
 
   // Auto-save toggle
   .form-check-input {
