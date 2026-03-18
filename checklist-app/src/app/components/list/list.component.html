@@ -3,18 +3,20 @@
 <nav class="navbar sticky-top navbar-app px-3">
   <div class="d-flex align-items-center gap-2 flex-grow-1">
     <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">← Voltar</button>
-  </div>
-  <div class="navbar-center-title d-flex align-items-center gap-2">
     <span class="badge" [class.bg-success]="!isDirty" [class.bg-danger]="isDirty">
       {{ isDirty ? '✗ Não salvo' : '✓ Salvo' }}
     </span>
+  </div>
+  <div class="navbar-center-title d-flex align-items-center gap-2">
     <span class="fw-semibold text-truncate" style="max-width:200px">{{ list.name }}</span>
-    <button class="btn btn-sm btn-link p-0 text-muted" (click)="openEditNameModal()" title="Editar nome">✏️</button>
+    <button class="btn btn-sm btn-link p-0" (click)="openEditNameModal()" title="Editar nome">
+      <i class="bi bi-pencil"></i>
+    </button>
   </div>
   <div class="d-flex align-items-center gap-2 flex-grow-1 justify-content-end">
     <div class="form-check form-switch mb-0 d-flex align-items-center gap-1">
       <input class="form-check-input mt-0" type="checkbox" id="autoSaveSwitch" [(ngModel)]="autoSave" (change)="onAutoSaveChange()">
-      <label class="form-check-label small" for="autoSaveSwitch">Auto-save</label>
+      <label class="form-check-label small mb-0" for="autoSaveSwitch">Auto-save</label>
     </div>
     <button class="btn btn-dark btn-sm" (click)="save()">Salvar</button>
     <button class="btn btn-outline-secondary btn-sm" (click)="exportToExcel()">📊 Exportar</button>
@@ -28,18 +30,30 @@
       <thead class="table-head-app">
         <tr>
           <th class="col-item">
-            <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
-                   [value]="list.itemColumnName"
-                   (blur)="updateItemColumnName(inputValue($event))">
+            <div class="d-flex align-items-center gap-1">
+              <input #itemColInput type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
+                     [value]="list.itemColumnName"
+                     (blur)="updateItemColumnName(inputValue($event))">
+              <button class="btn btn-sm btn-link p-0 th-edit-btn"
+                      (click)="itemColInput.focus(); itemColInput.select()" title="Editar coluna">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
           </th>
           @for (col of list.columns; track col.id) {
             <th class="col-check">
-              <input type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold"
-                     [value]="col.name"
-                     (blur)="updateColumnName(col.id, inputValue($event))">
+              <div class="d-flex align-items-center justify-content-center gap-1">
+                <input #colInput type="text" class="form-control form-control-sm border-0 bg-transparent fw-semibold text-center"
+                       [value]="col.name"
+                       (blur)="updateColumnName(col.id, inputValue($event))">
+                <button class="btn btn-sm btn-link p-0 th-edit-btn"
+                        (click)="colInput.focus(); colInput.select()" title="Editar coluna">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
             </th>
           }
-          <th class="col-add">
+          <th class="col-add text-center">
             <button class="btn btn-primary btn-sm" (click)="addColumn()" title="Adicionar coluna">+</button>
           </th>
           <th class="col-action"></th>
@@ -62,10 +76,12 @@
               </td>
             }
             <td class="col-add"></td>
-            <td class="col-action text-center">
-              <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">
-                <i class="bi bi-trash3"></i>
-              </button>
+            <td class="col-action">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <button class="btn btn-outline-danger btn-sm" (click)="removeRow(row.id)" title="Remover linha">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
             </td>
           </tr>
         }

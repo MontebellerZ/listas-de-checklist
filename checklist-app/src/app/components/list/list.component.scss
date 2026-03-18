@@ -32,6 +32,14 @@
     font-size: 0.875rem;
   }
 
+  // Pencil icon inside header cells — subtle until hovered
+  .th-edit-btn {
+    color: inherit;
+    opacity: 0.45;
+    flex-shrink: 0;
+    line-height: 1;
+    &:hover { opacity: 0.9; }
+  }
   // First column: item name — fills content up to 30 vw, then wraps
   .col-item {
     max-width: 30vw;
@@ -60,6 +68,8 @@
   .col-action {
     width: 48px;
     white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
   }
 }
 

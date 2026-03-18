@@ -134,6 +134,12 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+// ── Ensure primary buttons always use white text ───────────────────────────────
+.btn-primary {
+  color: #fff;
+  &:hover, &:focus, &:active, &.active { color: #fff; }
+}
+
 // ── Dark mode: form controls & table overrides ────────────────────────────────
 [data-bs-theme="dark"] {
   .form-control,
