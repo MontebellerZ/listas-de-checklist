@@ -4,11 +4,12 @@
   padding-right: 120px;
 }
 
-// Horizontal scroll only activates when table wider than the padded area
+// Horizontal scroll only activates when table wider than the padded area.
+// No background/border-radius here — avoids the "white card" block effect.
+// Small padding gives the table's own box-shadow room to render.
 .table-scroll-wrapper {
   overflow-x: auto;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(59, 110, 245, 0.12);
+  padding: 2px 4px 10px;
 }
 
 // ── Checklist table ───────────────────────────────────────────────────────────
@@ -20,6 +21,7 @@
   border-radius: 16px;
   overflow: hidden;
   margin-bottom: 0;
+  box-shadow: 0 4px 24px rgba(59, 110, 245, 0.12);
 
   th, td {
     border-color: rgba(59, 110, 245, 0.10);
